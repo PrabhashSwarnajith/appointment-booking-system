@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.alphacode.appointment_system_api.model.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Long> {
    
 }
