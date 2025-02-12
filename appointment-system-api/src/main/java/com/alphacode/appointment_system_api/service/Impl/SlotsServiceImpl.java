@@ -36,7 +36,7 @@ public class SlotsServiceImpl implements SlotsService {
         LocalDate today = LocalDate.now();
         if (date.isBefore(today)) {
             log.warn("Cannot generate slots for past dates: {}", date);
-            throw new SlotException("Cannot generate slots for past dates");
+            throw new SlotException("No slots available for past dates");
         }
 
         List<Slot> slotList = slotRepository.findByDate(date);
@@ -48,6 +48,7 @@ public class SlotsServiceImpl implements SlotsService {
         }
         
         return slotList.stream()
+                .filter(slot -> slot.getStatus().equals(Status.AVAILABLE))
                 .map(slot -> SlotDTO.builder() 
                     .id(slot.getId())         
                     .startTime(slot.getStartTime())
@@ -66,8 +67,12 @@ public class SlotsServiceImpl implements SlotsService {
         LocalTime currentTime = BUSINESS_START_TIME;
 
         if (date.equals(today)) {
+            if (now.isAfter(BUSINESS_END_TIME)) {
+                throw new SlotException("No slots available for today as business hours have ended");
+            }
             currentTime = now.isAfter(BUSINESS_START_TIME) ? now : BUSINESS_START_TIME;
-            throw new SlotException("Cannot generate slots for today's past time");
+        } else {
+            currentTime = BUSINESS_START_TIME;
         }
 
         while(currentTime.isBefore(BUSINESS_END_TIME)) {
