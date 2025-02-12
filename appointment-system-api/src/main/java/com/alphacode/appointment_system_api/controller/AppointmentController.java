@@ -1,5 +1,7 @@
 package com.alphacode.appointment_system_api.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +16,7 @@ import com.alphacode.appointment_system_api.service.AppointmentService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class AppointmentController {
 
@@ -26,7 +28,7 @@ public class AppointmentController {
     }
 
     @GetMapping(value = "/appointment")
-    public ResponseEntity<AppointmentDTO> getAllAppointment() {
+    public ResponseEntity<List<AppointmentDTO>> getAllAppointment() {
         return ResponseEntity.ok(appointmentService.getAppointment());
     }
 
