@@ -2,20 +2,25 @@ package com.alphacode.appointment_system_api.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "slots")
 public class Slot {
 
@@ -35,13 +40,6 @@ public class Slot {
     @Column(nullable = false)
     private Status status;
 
-
-    public String getFormattedStartTime() {
-        return startTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-    }
-
-    // Custom getter for formatted endTime
-    public String getFormattedEndTime() {
-        return endTime.format(DateTimeFormatter.ofPattern("HH:mm"));
-    }
+    @OneToOne(mappedBy = "slot", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Appointment appointment;
 }
