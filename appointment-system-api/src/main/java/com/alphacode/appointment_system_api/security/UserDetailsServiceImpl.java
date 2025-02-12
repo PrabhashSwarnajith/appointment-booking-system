@@ -21,11 +21,11 @@ public class UserDetailsServiceImpl implements UserDetailsService  {
     private final UserRepository userRepository;
     
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<User> user = userRepository.findByUsername(username);
         if (!user.isPresent()) {
-            throw new UsernameNotFoundException("User not found with email: " + email);
+            throw new UsernameNotFoundException("User not found with email: " + username);
         }
         
         UserPrinciple userPrinciple = new UserPrinciple(user.get());
