@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 public class AppointmentDTO {
     private Long id;
     private Long slot_id;
-    private String user_name;
-    private String user_contact;
+    private String name;
+    private String contact;
     private String user_email;
     private LocalDate date;
     private String time;

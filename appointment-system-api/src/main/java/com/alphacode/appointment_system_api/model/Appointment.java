@@ -30,6 +30,12 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false )
+    private String name;
+
+    @Column(nullable = false )
+    private String contact;
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
