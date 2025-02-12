@@ -51,9 +51,12 @@ public class AuthServiceImpl implements AuthService {
                         .username(authRequest.getUsername())
                         .password(passwordEncoder.encode(authRequest.getPassword()))
                         .role(Role.USER)
+                        .name(authRequest.getName())
+                        .contact(authRequest.getContact())
+                        .created_at(LocalDateTime.now())
                         .build();
         userRepository.save(user);
-        log.info("User registered successfully with email: {}", user.getEmail());
+        log.info("User registered successfully with username: {}", user.getUsername());
 
         return UserDTO.builder()
                         .username(user.getUsername())
@@ -67,18 +70,18 @@ public class AuthServiceImpl implements AuthService {
 
         try{
             authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getEmail(), authRequest.getPassword())
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
         }catch (Exception e){
-            log.warn("Authentication failed for email: {}", authRequest.getEmail());
-            throw new InvalidCredentialsException("Invalid email or password.");
+            log.warn("Authentication failed for username: {}", authRequest.getUsername());
+            throw new InvalidCredentialsException("Invalid username or password.");
         }
 
 
-        Optional<User> optionalUser = userRepository.findByEmail(authRequest.getEmail());
+        Optional<User> optionalUser = userRepository.findByUsername(authRequest.getUsername());
         if (optionalUser.isEmpty()) {
-            log.warn("User not found for email: {}", authRequest.getEmail());
-            throw new InvalidCredentialsException("Invalid email or password.");
+            log.warn("User not found for username: {}", authRequest.getUsername());
+            throw new InvalidCredentialsException("Invalid username or password.");
         }
 
         User user = optionalUser.get();
@@ -87,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
 
         String token = jwtService.generateToke(userPrinciple);
 
-        log.info("User logged in successfully with email: {}", user.getEmail());
+        log.info("User logged in successfully with username: {}", user.getUsername());
 
         return AuthDTO.builder()
                     .userId(user.getId())
