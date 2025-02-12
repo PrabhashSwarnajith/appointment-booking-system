@@ -3,6 +3,7 @@ package com.alphacode.appointment_system_api.repository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,6 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
     List<Slot> findByDate(LocalDate date);
 
     boolean existsByDate(LocalDate date); 
+
+    Optional<Slot> findSlotById (Long id);
 }
