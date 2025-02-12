@@ -1,5 +1,7 @@
 package com.alphacode.appointment_system_api.config;
 
+import java.time.LocalDateTime;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,7 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class DataLoader implements CommandLineRunner {
+public class AdminUserInitializer implements CommandLineRunner {
 
     private UserRepository userRepository;
     private  BCryptPasswordEncoder passwordEncoder;
@@ -21,18 +23,22 @@ public class DataLoader implements CommandLineRunner {
     public void run(String... args) throws Exception {
         
         try{
-            if(userRepository.findByUsername("admin") == null){
-                User admin =User.builder()
-                                .username("admin")
+            if(userRepository.findByUsername("Admin" ).isEmpty()){
+                User admin = User.builder()
+                                .username("Admin")
                                 .email("admin@gmail.com")
                                 .password(passwordEncoder.encode("admin"))
+                                .name("admin")
+                                .contact("0725953429")
                                 .role(Role.ADMIN)
+                                .created_at(LocalDateTime.now())
                                 .build();
                 userRepository.save(admin);
             }
         }
         catch(Exception e){
-            throw new Exception("Error while loading data");
+            e.printStackTrace();
+            throw new Exception("Error while initializing admin user: " + e.getMessage());
         }
 
     }
