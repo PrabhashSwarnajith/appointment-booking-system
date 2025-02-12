@@ -15,7 +15,7 @@ import com.alphacode.appointment_system_api.service.SlotsService;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping ("/api/")
+@RequestMapping ("/api")
 @AllArgsConstructor
 public class SlotsController {
 
