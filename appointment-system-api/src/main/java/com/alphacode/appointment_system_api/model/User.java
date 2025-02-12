@@ -2,14 +2,14 @@ package com.alphacode.appointment_system_api.model;
 
 
 
-import java.util.List;
+import java.time.LocalDateTime;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,10 +37,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false , unique = true)
+    private String name;
+
+    @Column(nullable = false , unique = true)
+    private String contact;
+
     @Column(nullable = false)
     private Role role;
 
-    @OneToMany(mappedBy = "userId")
-    private List<Appointment> appointments;
-
+    @Column(nullable = false)
+    private LocalDateTime created_at;
 }
