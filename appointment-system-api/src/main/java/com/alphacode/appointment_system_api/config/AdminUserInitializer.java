@@ -27,7 +27,7 @@ public class AdminUserInitializer implements CommandLineRunner {
                 User admin = User.builder()
                                 .username("Admin")
                                 .email("admin@gmail.com")
-                                .password(passwordEncoder.encode("admin"))
+                                .password(passwordEncoder.encode("admin12"))
                                 .role(Role.ADMIN)
                                 .created_at(LocalDateTime.now())
                                 .build();
